@@ -1,0 +1,17 @@
+{
+  "domain": "bold_ble",
+  "name": "Bold Bluetooth",
+  "bluetooth": [
+    {
+      "manufacturer_id": 1627,
+      "service_uuid": "0000fd30-0000-1000-8000-00805f9b34fb"
+    }
+  ],
+  "codeowners": ["@ptnijssen"],
+  "config_flow": true,
+  "version": "0.0.1",
+  "dependencies": ["bluetooth_adapters"],
+  "iot_class": "cloud_polling",
+  "documentation": "https://www.home-assistant.io/integrations/???",
+  "requirements": []
+}
