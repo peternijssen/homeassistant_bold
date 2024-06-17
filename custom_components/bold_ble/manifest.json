@@ -10,8 +10,8 @@
   "codeowners": ["@ptnijssen"],
   "config_flow": true,
   "version": "0.0.1",
+  "requirements": ["pycryptodome"],
   "dependencies": ["bluetooth_adapters"],
   "iot_class": "cloud_polling",
-  "documentation": "https://www.home-assistant.io/integrations/???",
-  "requirements": []
+  "documentation": "https://www.home-assistant.io/integrations/???"
 }
