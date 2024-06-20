@@ -1,8 +1,15 @@
 
 from typing import Literal, TypedDict
+from dataclasses import dataclass
+from typing import Any
+
+from bleak.backends.device import BLEDevice
 
 
+@dataclass
 class BoldBleDeviceInfo(TypedDict):
+    """Bold device info."""
+
     protocol_version: int
     type: int
     model: int
@@ -11,6 +18,16 @@ class BoldBleDeviceInfo(TypedDict):
     events_available: bool
     should_time_sync: bool
     is_in_dfu_mode: bool
+
+@dataclass
+class BoldAdvertisement:
+    """Bold advertisement."""
+
+    address: str
+    data: dict[str, Any]
+    device: BLEDevice
+    rssi: int
+    active: bool = False
 
 BoldBlePacketTypes = {
     "ResultSuccess": 0x00,
