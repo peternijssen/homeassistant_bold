@@ -1,17 +1,22 @@
-import logging
 import asyncio
 import contextlib
+import logging
 from typing import TYPE_CHECKING
+
+from bleak.backends.device import BLEDevice
 
 from homeassistant.components import bluetooth
 from homeassistant.components.bluetooth.active_update_coordinator import (
     ActiveBluetoothDataUpdateCoordinator,
 )
 from homeassistant.core import CoreState, HomeAssistant, callback
+
 from .lib_files.bold_lock import BoldLock
-from bleak.backends.device import BLEDevice
 
 DEVICE_STARTUP_TIMEOUT = 30
+
+if TYPE_CHECKING:
+    from bleak.backends.device import BLEDevice
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -27,6 +32,9 @@ class BoldDataUpdateCoordinator(
         logger: logging.Logger,
         ble_device: BLEDevice,
         device: BoldLock,
+        base_unique_id: str,
+        device_name: str,
+        serial_number: int,
     ) -> None:
         """Initialize example data coordinator."""
         super().__init__(
@@ -39,7 +47,9 @@ class BoldDataUpdateCoordinator(
             connectable=True,
         )
         self.device = device
-        self.ble_device = ble_device
+        self.device_name = device_name
+        self.base_unique_id = base_unique_id
+        self.serial_number = serial_number
         self._ready_event = asyncio.Event()
         self._was_unavailable = True
 

@@ -42,7 +42,6 @@ class BoldLock:
     def serial_number(self) -> str:
         """Get the serial number of the lock."""
         return self.device_id
-    
 
     def poll_needed(self, seconds_since_last_poll: int) -> bool:
         """Check if we need to poll."""

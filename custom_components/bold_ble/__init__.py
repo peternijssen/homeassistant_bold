@@ -6,7 +6,7 @@ import logging
 
 from homeassistant.components import bluetooth
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_ADDRESS
+from homeassistant.const import CONF_ADDRESS, CONF_NAME
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 
@@ -36,13 +36,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         ble_device, device_info['device_id']
     )
 
-    entry.lock = lock
-
     coordinator = hass.data[DOMAIN][entry.entry_id] = BoldDataUpdateCoordinator(
         hass,
         _LOGGER,
         ble_device,
         lock,
+        entry.unique_id,
+        str(entry.data.get(CONF_NAME, entry.title)),
+        device_info['device_id']
     )
 
     entry.async_on_unload(coordinator.async_start())
