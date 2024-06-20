@@ -2,18 +2,21 @@
 
 from __future__ import annotations
 
+from bleak.backends.device import BLEDevice
+
 
 class BoldLock:
     """The actual Bold lock."""
 
     def __init__(
         self,
+        device: BLEDevice,
         device_id: int | None = None,
-        address: str | None = None,
     ) -> None:
         """Init of the lock."""
+        self._device = device
         self._device_id = device_id
-        self._address = address
+        self._address = device.address
 
     @property
     def unique_id(self) -> str | None:
@@ -28,7 +31,7 @@ class BoldLock:
     @property
     def name(self) -> str:
         """Get the name of the lock."""
-        return self._device_id
+        return str(self._device_id)
 
     @property
     def address(self) -> str:
@@ -39,3 +42,8 @@ class BoldLock:
     def serial_number(self) -> str:
         """Get the serial number of the lock."""
         return self.device_id
+    
+
+    def poll_needed(self, seconds_since_last_poll: int) -> bool:
+        """Check if we need to poll."""
+        return False

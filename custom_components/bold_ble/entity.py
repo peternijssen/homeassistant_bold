@@ -7,14 +7,13 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
 
 from .const import DOMAIN, MANUFACTURER
-from .lib_files.objects import BoldLock
+from .lib_files.bold_lock import BoldLock
 
 
 class BoldBleEntity(Entity):
     """Defines a Bold Ble entity."""
 
     _attr_has_entity_name = True
-    _attr_should_poll = False
 
     def __init__(self, lock: BoldLock) -> None:
         """Initialize the entity."""
