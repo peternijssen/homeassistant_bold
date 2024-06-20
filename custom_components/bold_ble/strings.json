@@ -7,7 +7,9 @@
         },
         "abort": {
           "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
-          "no_devices_found": "[%key:common::config_flow::abort::no_devices_found%]"
+          "no_devices_found": "[%key:common::config_flow::abort::no_devices_found%]",
+          "device_is_installable": "Device cannot be configured: Not yet installed",
+          "device_is_in_dfu_mode": "Device cannot be configured: Device is in DFU mode"
         }
     }
 }

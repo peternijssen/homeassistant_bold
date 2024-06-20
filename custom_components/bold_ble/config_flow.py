@@ -55,6 +55,12 @@ class BoldConfigFlow(ConfigFlow, domain=DOMAIN):
             connection = BoldBleConnection()
             device_info = connection.get_device_info(discovery_info)
 
+            if device_info['is_installable'] is True:
+                return self.async_abort(reason="device_is_installable")
+
+            if device_info['is_in_dfu_mode'] is True:
+                return self.async_abort(reason="device_is_in_dfu_mode")
+
             await self.async_set_unique_id(
                 discovery_info.address, raise_on_progress=False
             )
