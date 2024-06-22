@@ -21,7 +21,7 @@ class BoldBleDeviceInfo(TypedDict):
     is_in_dfu_mode: bool
 
 @dataclass
-class BoldAdvertisement:
+class BoldBleAdvertisement:
     """Bold advertisement."""
 
     address: str
@@ -31,7 +31,9 @@ class BoldAdvertisement:
     active: bool = False
 
 class BoldBlePacketTypes(IntEnum):
-# Generic success packet.
+    """Bold Packet Types."""
+
+    # Generic success packet.
     ResultSuccess = 0x00
 
     # Handshake packets.
