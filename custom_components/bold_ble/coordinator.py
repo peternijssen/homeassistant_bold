@@ -1,7 +1,8 @@
+"""Coordinator for Bold BLE integration."""
 import asyncio
 import contextlib
 import logging
-from typing import TYPE_CHECKING
+from typing import Any
 
 from bleak.backends.device import BLEDevice
 
@@ -11,12 +12,8 @@ from homeassistant.components.bluetooth.active_update_coordinator import (
 )
 from homeassistant.core import CoreState, HomeAssistant, callback
 
+from .const import DEVICE_STARTUP_TIMEOUT
 from .lib_files.bold_lock import BoldLock
-
-DEVICE_STARTUP_TIMEOUT = 30
-
-if TYPE_CHECKING:
-    from bleak.backends.device import BLEDevice
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -24,7 +21,7 @@ _LOGGER = logging.getLogger(__name__)
 class BoldDataUpdateCoordinator(
     ActiveBluetoothDataUpdateCoordinator[None]
 ):
-    """Class to manage fetching example data."""
+    """Class to manage Bold BLE data updates."""
 
     def __init__(
         self,
@@ -36,7 +33,7 @@ class BoldDataUpdateCoordinator(
         device_name: str,
         serial_number: int,
     ) -> None:
-        """Initialize example data coordinator."""
+        """Initialize Bold BLE coordinator."""
         super().__init__(
             hass=hass,
             logger=logger,
@@ -59,6 +56,15 @@ class BoldDataUpdateCoordinator(
         service_info: bluetooth.BluetoothServiceInfoBleak,
         seconds_since_last_poll: float | None,
     ) -> bool:
+        """Determine if a poll is needed.
+
+        Args:
+            service_info: The Bluetooth service info.
+            seconds_since_last_poll: The time since the last poll.
+
+        Returns:
+            True if a poll is needed, False otherwise.
+        """
         # Only poll if hass is running, we need to poll,
         # and we actually have a way to connect to the device
         return (
@@ -95,7 +101,11 @@ class BoldDataUpdateCoordinator(
         super()._async_handle_bluetooth_event(service_info, change)
 
     async def async_wait_ready(self) -> bool:
-        """Wait for the device to be ready."""
+        """Wait for the device to be ready.
+
+        Returns:
+            True if the device is ready, False otherwise.
+        """
         with contextlib.suppress(TimeoutError):
             async with asyncio.timeout(DEVICE_STARTUP_TIMEOUT):
                 await self._ready_event.wait()
